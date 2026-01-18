@@ -8,6 +8,10 @@ fps = time.Clock()
 font.init()
 font3 = font.SysFont("Impact",74)
 
+mixer.init()
+mixer.music.load("music2.mp3")
+mixer.music.play()
+
 class Gamespite(sprite.Sprite):
     def __init__(self,img,x,y,speed,width,height):
         super().__init__()
@@ -70,23 +74,27 @@ while game is True:
         ball.rect.y += speed_y
 
     if ball.rect.y > 400 - 50 or ball.rect.y < 0:
+        f1 = mixer.Sound("boing.mp3")
+        f1.play()
         speed_y *= -1
 
     if sprite.collide_rect(player1, ball) or sprite.collide_rect(player2, ball):
+        f1 = mixer.Sound("boing.mp3")
+        f1.play()
         speed_x *= -1
 
-    if ball.rect.x > 600-50: #player 1 lose
+    if ball.rect.x > 600-40: #player 1 lose
         win = font3.render("Player 2 win",True,(0,255,0))
         window.blit(win,(125,150))
         display.update()
-        sleep(1)
+        sleep(2)
         game = False
 
-    if ball.rect.x < 0: #player 2 lose
+    if ball.rect.x < 0-10: #player 2 lose
         win = font3.render("Player 1 win",True,(0,255,0))
         window.blit(win,(125,150))
         display.update()
-        sleep(1)
+        sleep(2)
         game = False
 
     window.blit(bg,(0,0))
@@ -98,4 +106,3 @@ while game is True:
 
     fps.tick(60)
     display.update()
-
